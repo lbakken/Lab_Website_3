@@ -1,0 +1,105 @@
+<% include ../partials/header %>
+<% include ../partials/menu %>
+	<div class="container">
+		<br>
+		<div class="row">
+			<div class="col-4">
+				<div class="card">
+					<%
+					var image_src = '../resources/img/helmet.jpg';
+					if (my_player) {
+						image_src = my_player.img_src;
+					} %>
+					<img class="card-img-top" id="player_img" src="<%= image_src %>" alt="Image of Football Player">
+					<div class="card-body mx-auto">
+						<form class="form" action="/player-info/post" method="post">
+							<select class="custom-select" name="player_choice" onchange="this.form.submit()">
+								<option selected>
+									<% if (my_player) { %>
+										<%= my_player.name %>
+									<% } else { %>
+										Select Player
+									<% } %>
+								</option>
+								<%	if (player_data) {
+									player_data.forEach(function(item) { %>
+									<option><%= item.name %></option>
+								<% })} %>
+							</select>
+						</form>
+				  	</div>
+				</div>
+			</div>
+			<div class="col-8">
+				<div class="table-responsive">
+					<table class="table">
+						<tr>
+							<!-- TODO: Set Player Information
+							 			If a player has been selected, fill in their information in each of the fields below.
+							 		    You'll need to calculate here the player's average rushing, receiving, and passing yards.-->
+							<th>Year</th>
+							<td>
+								<%if (my_player) { %>
+									<%= my_player.year %>
+								<% } %>
+							</td>
+						</tr>
+						<tr>
+							<th>Major</th>
+							<td>
+								<%if (my_player) { %>
+									<%= my_player.major %>
+								<% } %>
+							</td>
+						</tr>
+						<tr>
+							<th>Games Played</th>
+							<td>
+								<%if (games_played) { %>
+									<%= games_played %>
+								<% } %>
+							</td>
+						</tr>
+						<tr>
+							<td>Passing Yards: 
+								<%if (my_player) { %>
+									<%= my_player.passing_yards %>
+								<% } %>
+							</td>
+							<td>Avg. Passing Yards: 
+								<%if (my_player && games_played) { %>
+									<%= (my_player.passing_yards / games_played).toFixed(2) %>
+								<% } %>
+							</td>
+						</tr>
+						<tr>
+							<td>Rushing Yards: 
+								<%if (my_player) { %>
+									<%= my_player.rushing_yards %>
+								<% } %>
+							</td>
+							<td>Avg. Rushing Yards: 
+								<%if (my_player && games_played) { %>
+									<%= (my_player.rushing_yards / games_played).toFixed(2) %>
+								<% } %>
+							</td>
+						</tr>
+						<tr>
+							<td>Receiving Yards: 
+								<%if (my_player) { %>
+									<%= my_player.receiving_yards %>
+								<% } %>
+							</td>
+							<td>Avg. Receiving Yards: 
+								<%if (my_player && games_played) { %>
+									<%= (my_player.receiving_yards / games_played).toFixed(2) %>
+								<% } %>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+  
+<% include ../partials/footer %>
